@@ -1,0 +1,48 @@
+body,
+html {
+  margin: 0;
+}
+
+.App {
+  font-family: sans-serif;
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
+}
+
+.App .errorText {
+  color: red;
+}
+
+.App button {
+  background: none;
+  border: grey 1px solid;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.App table {
+  border-collapse: collapse;
+}
+
+.App table thead {
+  font-weight: bold;
+}
+
+.App table td {
+  border: 1px solid grey;
+  padding: 10px;
+}
+
+.App select {
+  margin-bottom: 20px;
+}
+
+.App form input {
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+button:disabled {
+  opacity: 0.3;
+}
