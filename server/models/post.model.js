@@ -10,9 +10,9 @@ class Post {
     return schema.validate(attributes, {abortEarly: false, presence: forCreation ? 'required' : 'optional'})
   }
 
-  static async create (newpost) {
-    return db.query('insert into posts set ?', newpost)
-      .then(res => { newpost.id = res.insertId; return newpost; });
+  static async create (newPost) {
+    return db.query('insert into posts set ?', newPost)
+      .then(res => { newPost.id = res.insertId; return newPost; });
   }
 
   static async findById (id) {

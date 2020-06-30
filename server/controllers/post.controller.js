@@ -4,9 +4,9 @@ const {tryParseInt}  = require('../helpers/number')
 class postController {
   static async create (req, res) {
     const {title, content} = req.body;
-    const main_picture_url = req.file ? req.file.path : null
-    const createdpost = await Post.create({title, content, main_picture_url})
-    res.status(201).send(createdpost)
+    const main_picture_url = null
+    const createdPost = await Post.create({title, content, main_picture_url})
+    res.status(201).send(createdPost)
   }
 
   static async findAll (req, res) {

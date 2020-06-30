@@ -8,7 +8,6 @@ const axios = Axios.create({baseURL})
 function App() {
   const [posts, setPosts] = useState([])
   const [title, setTitle] = useState('An awesome blog post')
-  const [mainPicture, setMainPicture] = useState(null)
   const [content, setContent] = useState("blog post content")
 
   useEffect(() => {
@@ -17,17 +16,6 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('content', content);
-    formData.append('title', title);
-    formData.append("main_picture", mainPicture);
-    axios.post('/posts', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-    })
-    .then(res => res.data)
-    .then(data => setPosts([...posts, {content, title, main_picture_url: data.main_picture_url}]))
   }
 
   return (
@@ -40,8 +28,6 @@ function App() {
         <textarea onChange={e => setContent(e.target.value)} value={content}>
         </textarea>
         <br/>
-        <input type="file" onChange={e => setMainPicture(e.target.files[0])}/>
-        <br/>
         <input type="submit" value="create new post"/>
       </form>
 
@@ -51,7 +37,6 @@ function App() {
         return (
           <div className="post" key={post.id}>
             <h2>{post.title}</h2>
-            {post.main_picture_url && <img src={baseURL + '/' + post.main_picture_url}/>}
             <p>{post.content}</p>
           </div>
         )
