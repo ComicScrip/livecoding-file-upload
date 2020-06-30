@@ -24,11 +24,12 @@ process.on('beforeExit', () => {
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static('uploads'))
+
 if (process.env.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 }
-app.use('/tasks', require('./routes/task.routes.js'));
-app.use('/', (req, res) => { res.redirect('/tasks'); });
+app.use('/posts', require('./routes/post.routes.js'));
 
 app.use((error, req, res, next) => {
   console.error(error.stack);

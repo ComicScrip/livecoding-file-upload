@@ -1,6 +1,7 @@
-CREATE TABLE `tasks` (
+CREATE TABLE `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `done` tinyint(1) DEFAULT false,
-  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text,
+  `main_picture_url` varchar(255),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB;
