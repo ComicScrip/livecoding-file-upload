@@ -1,11 +1,23 @@
 import React, {useState, useEffect} from "react";
 import "../styles.css";
 import Axios from 'axios'
+import ImageCropInput from './ImageCropInput'
+import { Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 const baseURL = process.env.REACT_APP_API_BASE_URL
 const axios = Axios.create({baseURL})
 
 function App() {
+  const classes = useStyles();
   const [posts, setPosts] = useState([])
   const [title, setTitle] = useState('An awesome blog post')
   const [mainPicture, setMainPicture] = useState(null)
@@ -15,12 +27,15 @@ function App() {
     axios.get('/posts').then(res => res.data).then(data => setPosts(data))
   }, [])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('content', content);
     formData.append('title', title);
-    formData.append("main_picture", mainPicture);
+    const mainPictureFile = await fetch(mainPicture)
+      .then(r => r.blob())
+      .then(blobFile => new File([blobFile], "image.jpg", { type: "image/jpg" }))
+    formData.append("main_picture", mainPictureFile);
     axios.post('/posts', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -31,7 +46,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={"App " + classes.root}>
       <h2>New Post</h2>
 
       <form onSubmit={handleSubmit}>
@@ -40,13 +55,28 @@ function App() {
         <textarea onChange={e => setContent(e.target.value)} value={content}>
         </textarea>
         <br/>
-        <input type="file" onChange={e => setMainPicture(e.target.files[0])}/>
+        <ImageCropInput onValidateCrop={setMainPicture} 
+          renderInput={onChange => <input  type="file" onChange={onChange} />}
+          renderValidateButton={
+            (onClick, disabled) => 
+              <Button onClick={onClick} disabled={disabled} variant="contained" color="primary">
+                Valider
+              </Button>
+          }
+          renderCancelButton={
+            (onClick, disabled) => 
+              <div style={{marginRight: 50, display: 'inline-block'}} >
+                <Button onClick={onClick} disabled={disabled} variant="outlined" color="secondary">
+                  Annuler
+                </Button>
+              </div>
+          }
+        />
+        {mainPicture && <img width="320" height="180" src={mainPicture}/>}
         <br/>
         <input type="submit" value="create new post"/>
       </form>
-
       <h2>Post List</h2>
-
       {posts.map(post => {
         return (
           <div className="post" key={post.id}>

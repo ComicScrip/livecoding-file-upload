@@ -1,0 +1,10 @@
+.crop-container {
+  width: 100%;
+  height: 75vh;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  text-align: center;
+}

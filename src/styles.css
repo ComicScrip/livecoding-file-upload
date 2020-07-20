@@ -71,3 +71,7 @@ button:disabled {
   max-width: 500px;
   margin: auto;
 }
+
+input[type='file'] {
+  color: transparent;
+}
